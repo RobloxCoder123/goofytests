@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+    </head>
+    <body>
+        <h1>Helldivers shenenigains</h1>
+        <button onclick="fetchMOs()">Fetch Major Orders</button>
+        <p id="1">1</p> <br>
+        <p id="2">2</p> <br>
+        <p id="3">3</p> <br>
+        <p id="4">4</p> <br>
+        <p id="5">5</p> <br>
+        <p id="6">6</p> <br>
+        <script>
+            function fetchMOs() {
+                fetch('https://corsproxy.io/?https://helldiverstrainingmanual.com/api/v1/war/major-orders')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const orders = data.data;
+                        for (let i = 0; i < orders.length; i++) {
+                            const order = orders[i];
+                            const orderId = order.id;
+                            const orderName = order.name;
+                            const orderDescription = order.description;
+                            const orderStatus = order.status;
+                            const orderDate = new Date(order.created_at).toLocaleDateString();
+                            console.log(orderId, orderName, orderDescription, orderStatus, orderDate);
+                            
+                            document.getElementById(i + 1).innerHTML = `Order ID: ${orderId} <br> Order Name: ${orderName} <br> Order Description: ${orderDescription} <br> Order Status: ${orderStatus} <br> Order Date: ${orderDate}`;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+        </script>
+    </body>
+</html>
